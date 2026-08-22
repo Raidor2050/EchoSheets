@@ -62,3 +62,9 @@
 - GDG v6 API renames: `onGridSelectionChange`, `GridSelection.current.range`,
   enum `GridCellKind.Text`
 - uDSV API: inferSchema/initParser instead of assumed csvParse
+- Deployed site rejected every CSV: a vite incremental-cache glitch emitted
+  dist without the csv-parse.worker chunk, so the Worker 404'd. Fix: parsing
+  logic extracted into pure `lib/dataset/csvParse.ts` shared by worker +
+  main-thread fallback (`parseBridge` falls back when the worker can't start),
+  plus a postbuild `scripts/check-dist.mjs` guard that fails the build if the
+  worker chunk is missing

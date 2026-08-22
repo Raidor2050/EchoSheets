@@ -75,7 +75,11 @@ export function ImportScreen() {
     (files: FileList | null) => {
       const file = files?.[0];
       if (!file) return;
-      if (!/\.(csv|tsv|txt)$/i.test(file.name)) {
+      const looksTabular =
+        /\.(csv|tsv|txt)$/i.test(file.name) ||
+        file.type === "text/csv" ||
+        file.type === "text/tab-separated-values";
+      if (!looksTabular) {
         setError("Please choose a .csv, .tsv or .txt file.");
         setState("error");
         return;
@@ -86,7 +90,7 @@ export function ImportScreen() {
         setError("Could not read the file from disk.");
         setState("error");
       };
-      reader.readAsText(file);
+      reader.readAsText(file, "utf-8");
     },
     [ingest],
   );
