@@ -68,3 +68,10 @@
   main-thread fallback (`parseBridge` falls back when the worker can't start),
   plus a postbuild `scripts/check-dist.mjs` guard that fails the build if the
   worker chunk is missing
+- Editor rendered as a black screen after import: glide-data-grid v6 ships its
+  layout styles as static CSS (@linaria build output) that must be imported
+  explicitly; without it the grid container collapses to zero height, GDG's
+  ResizeObserver never reports a size, and InfiniteScroller renders an empty
+  div forever. Fix: `main.tsx` imports
+  `@glideapps/glide-data-grid/dist/index.css`; Playwright e2e smoke gate
+  (`npm run e2e`) now asserts `data-grid-canvas` lays out at real dimensions

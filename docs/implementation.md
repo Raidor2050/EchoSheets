@@ -75,10 +75,15 @@ Undo applies inverse patches; redo replays forward ones. Atomic per operation, c
 | zod 4 | MIT | schema validation of model output | valibot (fine; zod deeper in AI tooling) |
 | vite 7 + vitest | MIT | first-class Windows DX | webpack/jest (slower) |
 | @biomejs/biome | MIT | lint+format in one fast tool | eslint+prettier (two configs) |
+| playwright (dev) | Apache-2.0 | headless e2e: proves the grid canvas actually mounts and lays out before deploy; catches silent chunk/style loss unit tests can't see | puppeteer (Chromium-only licensing friction) |
 
 Known quirk: GDG 6.0.3 under-declares runtime deps (lodash, marked,
 react-number-format, react-responsive-carousel, canvas-hypertxt) and its peer range
 excludes React 19 — handled via explicit deps + `.npmrc legacy-peer-deps`.
+GDG also compiles its layout styles (@linaria) to static CSS that is never
+injected at runtime: `main.tsx` must import
+`@glideapps/glide-data-grid/dist/index.css`, otherwise the grid container has
+zero height and the canvas never mounts (blank editor).
 
 ## Folder structure
 
@@ -121,6 +126,10 @@ docs/               this file + progress.md
 Vitest unit/integration: CSV round-trip + injection sanitization, type inference,
 history undo/redo atomicity, staging commit semantics (new-column + replace),
 intent rules, deterministic transforms, sample-dataset end-to-end through real uDSV parsing.
+
+Playwright e2e (`npm run e2e`): boots the production bundle, imports the sample
+dataset headlessly, and fails unless `data-grid-canvas` lays out at real
+dimensions — guards against missing GDG CSS or dropped worker chunks.
 
 ## Deployment
 
