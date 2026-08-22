@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-ssr/
+coverage/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# editor / OS junk
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# logs
+*.log
+npm-debug.log*
+
+# local state
+*.local
+.vitest/
+
+# workflows excluded until token has 'workflow' scope (re-add later)
+.github/workflows/
