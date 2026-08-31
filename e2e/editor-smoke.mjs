@@ -95,6 +95,21 @@ try {
   console.log(
     `✓ data-grid-canvas ${Math.round(gridCanvasBox.width)}x${Math.round(gridCanvasBox.height)}`,
   );
+
+  // Sheets-chrome regression gate: formula bar (fx + cell ref), menu bar and
+  // sheet tabs must all be present in the editor shell.
+  const chrome = {
+    fx: (await page.locator('[aria-label="Insert function"]').count()) === 1,
+    cellRef: (await page.locator('[aria-label="Cell content"]').count()) === 1,
+    menuBar: (await page.getByText("File").count()) > 0,
+    addSheet: (await page.locator('[aria-label="Add sheet"]').count()) === 1,
+    activeTab: (await page.locator('[aria-label="All sheets"]').count()) === 1,
+  };
+  console.log("chrome:", JSON.stringify(chrome));
+  if (!chrome.fx || !chrome.cellRef || !chrome.menuBar || !chrome.addSheet || !chrome.activeTab) {
+    throw new Error(`expected Sheets chrome missing: ${JSON.stringify(chrome)}`);
+  }
+  console.log("✓ Sheets chrome (formula bar, menus, sheet tabs) rendered");
   await shot("2-editor");
 } catch (err) {
   console.log("== FAILED ==");

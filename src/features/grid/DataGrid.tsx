@@ -158,7 +158,8 @@ export function DataGrid() {
       onCellClicked={onCellClicked}
       onGridSelectionChange={onGridSelectionChange}
       onDelete={onDelete}
-      rowMarkers="none"
+      rowMarkers={{ kind: "number" }}
+      fillHandle={false}
       smoothScrollX
       smoothScrollY
       getCellsForSelection={(sel) => {

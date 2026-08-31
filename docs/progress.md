@@ -47,6 +47,27 @@
   (cell escaping, canary, schema-constrained outputs, rowId echo verification)
 - GitHub Actions CI (lint + typecheck + tests) and Pages deploy workflow
 
+### Phase 12 · Google-Sheets-style editor chrome (redesign)
+- Rebuilt the editor shell as a Sheets/AISheets-style application chrome while
+  keeping the AMOLED dark theme and the AI-native staging model intact:
+  - `TopBar` → app bar: logo + doc name, History / Export / **Ask AI (⌘K)**
+    primary button, provider status indicator
+  - `MenuBar` — File / Edit / View / Format / Data dropdown menus with
+    keyboard hints, separators and data-cleanup quick actions
+  - `Toolbar` — undo/redo, zoom slider, bold/italic/strikethrough toggles,
+    Σ functions, missing-value scan, export, prominent Ask-AI button
+  - `FormulaBar` — live cell-reference Name box (A1), `fx` affordance, and an
+    editable cell-content input bound to the current selection
+  - `DataGrid` — enabled `rowMarkers={{ kind: "number" }}` for the Sheets gray
+    row gutter; grid theme re-tuned for Sheets-like dark headers/gridlines
+  - `SheetTabs` — all-sheets + active-tab pill + add-sheet affordance
+    (single-dataset model preserved; multi-sheet is roadmap)
+  - `StatusBar` — live selection aggregates (Sum / Avg / Count) over the
+    numeric cells in the current selection + provider status + zoom
+- New shared dropdown primitive `src/components/ui/Menu.tsx` (motion + outside-click)
+- E2E smoke gate extended to assert the new chrome mounts (formula bar,
+  menus, sheet tabs) alongside the canvas layout check
+
 ## Known limitations / next steps
 1. Server proxy mode (Hono SSE) so keys never touch the browser — .env.example ready
 2. IndexedDB persistence of datasets + operation ledger (Dexie)

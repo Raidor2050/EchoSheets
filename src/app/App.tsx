@@ -7,9 +7,13 @@ import { DataGrid } from "../features/grid/DataGrid";
 import { ImportScreen } from "../features/import/ImportScreen";
 import { useSheet } from "../lib/dataset/store";
 import { useUi } from "../lib/uiStore";
+import { FormulaBar } from "./FormulaBar";
 import { HistoryPanel } from "./HistoryPanel";
+import { MenuBar } from "./MenuBar";
 import { SettingsModal } from "./SettingsModal";
+import { SheetTabs } from "./SheetTabs";
 import { StatusBar } from "./StatusBar";
+import { Toolbar } from "./Toolbar";
 import { TopBar } from "./TopBar";
 
 export function App() {
@@ -49,10 +53,14 @@ export function App() {
         ) : (
           <>
             <TopBar />
+            <MenuBar />
+            <Toolbar />
+            <FormulaBar />
             <div className="min-h-0 flex-1">
               <DataGrid />
             </div>
             <PreviewBar />
+            <SheetTabs />
             <StatusBar />
           </>
         )}

@@ -89,12 +89,13 @@ zero height and the canvas never mounts (blank editor).
 
 ```
 src/
-├── app/            App shell, TopBar, StatusBar, SettingsModal, HistoryPanel
-├── components/ui/  Button, Kbd primitives
+├── app/            App shell, TopBar, MenuBar, Toolbar, FormulaBar,
+│                   SheetTabs, StatusBar, SettingsModal, HistoryPanel
+├── components/ui/  Button, Kbd, Menu (dropdown) primitives
 ├── features/
 │   ├── ai/         CommandBar, intent, executor, provider, stagingStore, PreviewBar
 │   ├── export/     RFC-4180 sanitized CSV download
-│   ├── grid/       DataGrid (GDG wrapper), AMOLED theme, ghost overlays
+│   ├── grid/       DataGrid (GDG wrapper), AMOLED/Sheets theme, ghost overlays
 │   └── import/     ImportScreen dropzone, sample dataset
 ├── lib/
 │   ├── dataset/    store (data+undo), inferTypes, serializeCsv, parseBridge
@@ -129,7 +130,9 @@ intent rules, deterministic transforms, sample-dataset end-to-end through real u
 
 Playwright e2e (`npm run e2e`): boots the production bundle, imports the sample
 dataset headlessly, and fails unless `data-grid-canvas` lays out at real
-dimensions — guards against missing GDG CSS or dropped worker chunks.
+dimensions — guards against missing GDG CSS or dropped worker chunks. It also
+asserts the Sheets chrome mounts (formula-bar name box, `fx`, menu bar, sheet
+tabs), so a regression in the editor shell is caught before deploy.
 
 ## Deployment
 
